@@ -1,0 +1,127 @@
+@import 'reset.css';
+
+p {
+    color: #111111;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4vh 4vw;
+    gap: 32px;
+
+    position: relative;
+    width: 28vw;
+    height: 92vh;
+    left: 0px;
+    top: 0px;
+
+    background: #F5F5F5;
+    border-radius: 0px 12px 12px 0px;
+}
+
+.user_menu {
+    /* Auto layout */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 8px;
+    gap: 16px;
+
+    width: 100%;
+    height: 80px;
+
+
+    /* Inside auto layout */
+    flex-grow: 0;
+}
+
+.user_menu > img {
+    /* image 1 */
+    width: 64px;
+    height: 64px;
+
+    /* Inside auto layout */
+    flex: none;
+    flex-grow: 0;
+}
+
+.user_info {
+    /* Auto layout */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 0px;
+
+    width: 92px;
+    height: 30px;
+
+
+    /* Inside auto layout */
+    flex-grow: 1;
+}
+
+.user_info p {
+    margin: 8px ;
+}
+
+.user_info .user_email{
+    font-size: small;
+    color: #888888;
+}
+
+.calendar_section {
+
+    /* Inside auto layout */
+    flex-grow: 0;
+}
+
+#calendar_date::before {
+    content:"◀ ";
+}
+
+#calendar_date::after {
+    content:" ▶"
+}
+
+.other_function {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 16px;
+
+
+    /* Inside auto layout */
+    flex-grow: 1;
+
+}
+
+.other_function > div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+
+    /* Inside auto layout */
+    flex-grow: 0;
+}
+
+.other_function div img{
+    width: 24px;
+    height: 24px;
+
+    /* Inside auto layout */
+    flex: none;
+}
+
+.other_function > div p {
+    display: inline-block;
+}
+
+#version {
+    font-size: small;
+    color: #888888;
+}

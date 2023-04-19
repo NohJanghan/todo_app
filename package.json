@@ -4,7 +4,8 @@
   "description": "todo app made with electron",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "dev": "nodemon --exec electron ."
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,7 @@
   },
   "homepage": "https://github.com/NohJanghan/todo_app#readme",
   "devDependencies": {
-    "electron": "^23.0.0"
+    "electron": "^23.0.0",
+    "nodemon": "^2.0.22"
   }
 }

@@ -1,7 +1,19 @@
 @import 'reset.css';
 
-p {
+body {
+    display: grid;
+    grid-template-columns: 32fr 60fr 6fr 2fr;
+
+    /* TODO: 사이드바 모서리 둥글게
+    TODO: 배경 색 설정 */
+}
+
+html {
     color: #111111;
+}
+
+h1 {
+    font-size: 2rem;
 }
 
 .sidebar {
@@ -47,7 +59,7 @@ p {
     flex-grow: 0;
 }
 
-.user_info {
+.user_menu .user_info {
     /* Auto layout */
     display: flex;
     flex-direction: column;
@@ -124,4 +136,68 @@ p {
 #version {
     font-size: small;
     color: #888888;
+}
+
+#main {
+    background-color: white;
+    border-radius: 0px 12px 12px 0px;
+    box-shadow: 4px 4px 4px #888888;
+    z-index: 1;
+    
+    width: 100%;
+    height: 100%;
+
+    text-align: center;
+}
+
+#main h1 {
+    padding: 10% 0;
+}
+
+#memo {
+    background-color: #F5F5F5;
+    min-height: 5%;
+    max-width: 80%;
+    margin: 0 auto;
+    padding: 0 2px;
+
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+}
+
+div:has(#main) {
+    background-color: #FFCC80;
+    overflow: visible;
+    z-index: 2;
+}
+
+#mark {
+    background-color: #FFCC80;
+    border-radius: 0px 12px 12px 0px;
+    box-shadow: 4px 4px 4px #888888;
+    width: 100%;
+    height: 100%;
+}
+
+div:has(#mark) {
+    background-color: #F5F5F5;
+    overflow: visible;
+    z-index: 1;
+}
+
+.empty {
+    background-color: #F5F5F5;
+}
+
+.mark_icon {
+    width: 100%;
+    height: 100%;
+}
+
+.mark_icon > img{
+    /* width: 80%; */
+    width: 24px;
+    padding: 16px 0;
+    margin: 0 auto;
+    display: block;
 }

@@ -1,4 +1,6 @@
 const { app, BrowserWindow } = require('electron')
+require("dotenv").config();
+
 
 const createWindow = () => {
     const win = new BrowserWindow({
@@ -8,7 +10,7 @@ const createWindow = () => {
     })
 
     win.loadFile('main.html')
-    win.webContents.openDevTools()
+    if(process.env.NODE_ENV == "development") win.webContents.openDevTools()
 }
 
 app.whenReady().then(() => {

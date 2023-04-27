@@ -4,8 +4,8 @@
   "description": "todo app made with electron",
   "main": "main.js",
   "scripts": {
-    "start": "electron .",
-    "dev": "nodemon --exec electron ."
+    "start": "cross-env NODE_ENV=production electron .",
+    "dev": "cross-env NODE_ENV=development nodemon --exec electron ."
   },
   "repository": {
     "type": "git",
@@ -18,7 +18,11 @@
   },
   "homepage": "https://github.com/NohJanghan/todo_app#readme",
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "electron": "^23.0.0",
     "nodemon": "^2.0.22"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.3"
   }
 }

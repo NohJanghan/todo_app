@@ -4,8 +4,6 @@ body {
     display: grid;
     grid-template-columns: 32fr 60fr 6fr 2fr;
 
-    /* TODO: 사이드바 모서리 둥글게
-    TODO: 배경 색 설정 */
 }
 
 html {
@@ -139,6 +137,9 @@ h1 {
 }
 
 #main {
+    display: flex;
+    flex-direction: column;
+
     background-color: white;
     border-radius: 0px 12px 12px 0px;
     box-shadow: 4px 4px 4px #888888;
@@ -147,22 +148,56 @@ h1 {
     width: 100%;
     height: 100%;
 
-    text-align: center;
+    font-size: 1.3rem;
 }
 
 #main h1 {
-    padding: 10% 0;
+    margin: 10% 0;
+    text-align: center;
 }
 
 #memo {
     background-color: #F5F5F5;
     min-height: 5%;
-    max-width: 80%;
-    margin: 0 auto;
-    padding: 0 2px;
+    width: 80%;
+    margin: 2% auto 0 auto;
+    padding: 0 4px;
 
     border-top: 2px solid black;
     border-bottom: 2px solid black;
+}
+
+#list {
+    flex-grow: 1;
+}
+
+.todo_item {
+    min-height: 5%;
+    width: 75%;
+    margin: 0 auto;
+    padding: 12px;
+
+    position: relative;
+    left:0;
+
+    /* box-shadow: 0 0 1px red inset; */
+}
+
+.todo_item:not(:first-child)::after {
+    display: inline;
+    content: "X";
+    color: red;
+
+    position: absolute;
+    right: 12px;
+
+
+    text-align: right;
+
+}
+
+.todo_item:not(:last-child) {
+    border-bottom: 1px solid gray;
 }
 
 div:has(#main) {

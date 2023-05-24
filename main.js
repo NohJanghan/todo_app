@@ -1,4 +1,5 @@
 const { app, BrowserWindow } = require('electron')
+const path = require('path')
 require("dotenv").config();
 
 
@@ -6,7 +7,11 @@ const createWindow = () => {
     const win = new BrowserWindow({
         width: 800,
         height: 600,
-        resizable: false
+        resizable: false,
+
+        webPreferences: {
+            preload: path.join(__dirname, 'mainPreload.js'),
+        },
     })
 
     win.loadFile('main.html')

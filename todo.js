@@ -51,7 +51,7 @@ let TodoList = class {
         this.openDB(db_path);
         this.todoContainer = new Todos();
     }
-    openDB(db_path) {
+    openDB(db_path, doInit = true) {
         this.closeDB();
 
         this.db = new sqlite3.Database(db_path, (err) => {
@@ -61,6 +61,26 @@ let TodoList = class {
                 console.log('Connected to the SQLite database.');
             }
         })
+        
+        if(doInit) {
+            const checkTables = "SELECT name FROM sqlite_schema WHERE type = 'table' AND name NOT LIKE 'sqlite_%';";
+            this.db.all(checkTables, (err, rows) => {
+                if(err) {
+                    console.err(err.message);
+                }
+
+                if(rows.length === 0) {
+                    const createTableSQL = "CREATE TABLE todo (" +
+                                        "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                                        "order INTEGER, "+
+                                        "content TEXT NOT NULL, " + 
+                                        "status INTEGER NOT NULL DEFAULT 0," +
+                                        "date TEXT NOT NULL DEFAULT (date('now', 'localtime'))," +
+                                        "category TEXT"+")";
+                    this.db.run(createTableSQL);
+                }
+            })
+        }
     }
     async closeDB() {
         if(this.db instanceof sqlite3.Database) {

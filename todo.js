@@ -83,6 +83,32 @@ let TodoList = class {
             return false;
         }
     }
+    // Create
+    addTodo(content) {
+        let category, order;
+        // parseContent 구현해야함
+        [content, order, category] = parseContent(content);
+        if (content == null) {
+            return false;
+        }
+        const insertSQL = "INSERT INTO todo (order, content, category) VALUES ((?), (?), (?))";
+        let self = this;
+        this.db.run(insertSQL, [order, content, category], function(err) {
+            if(err) throw err;
+            console.log("---inserted to DB---");
+            console.log("rowid: " + this.lastID);
+            const selectSQL = "SELECT * FROM todo WHERE rowid = ?";
+            self.db.get(selectSQL, this.lastID, (err, row) => {
+                if(err) throw err;
+                if(row === undefined) console.err("No Result");
+
+                let todo = new Todo(row.id, row.content, row.category, row.date, row.status, row.order);
+                self.todoContainer.insertTodo(todo);
+                console.log("---inserted to todoList---");
+                console.log(todo);
+            })
+        });
+    }
 
 
 };

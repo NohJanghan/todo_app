@@ -97,7 +97,7 @@ let TodoList = class {
             if(err) throw err;
             console.log("---inserted to DB---");
             console.log("rowid: " + this.lastID);
-            const selectSQL = "SELECT * FROM todo WHERE rowid = ?";
+            const selectSQL = "SELECT id, order, content, status, date, category FROM todo WHERE rowid = ?";
             self.db.get(selectSQL, this.lastID, (err, row) => {
                 if(err) throw err;
                 if(row === undefined) console.err("No Result");
@@ -108,6 +108,19 @@ let TodoList = class {
                 console.log(todo);
             })
         });
+    }
+
+    // Read (Month Unit)
+    getTodoInMonth(year, month) {
+        const selectSQL = `SELECT id, order, content, status, date, category FROM todo WHERE date BETWEEN date('${year}-${month}-01','start of month') AND date('${year}-${month}-01', '+1 months', 'start of month', '-1 day')`;
+        this.db.each(selectSQL, (err, row) => {
+            if(err) throw err;
+            
+            let todo = new Todo(row.id, row.content, row.category, row.date, row.status, row.order);
+            self.todoContainer.insertTodo(todo);
+            console.log("---inserted to todoList---");
+            console.log(todo);
+        })
     }
 
 

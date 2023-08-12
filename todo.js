@@ -33,19 +33,6 @@ let Todos = class extends Object {
     }
 };
 
-const db_path = ':memory';
-const todoList = {
-    db: new sqlite3.Database(db_path, (err) => {
-        if(err) {
-            return console.error(err.message);
-        } else {
-            console.log('Connected to the SQLite database.');
-        }
-    }),
-
-}
-Object.freeze(todoList);
-
 let TodoList = class {
     constructor(db_path = ":memory:") {
         this.openDB(db_path);

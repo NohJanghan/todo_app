@@ -71,14 +71,17 @@ let TodoList = class {
     }
     async closeDB() {
         if(this.db instanceof sqlite3.Database) {
+            let flag = true;
             await this.db.close((err) => {
                 if(err) {
                     console.err(err.message);
                 }
+                flag = false;
             });
-            return true;
+            return flag;
+        } else {
+            return false;
         }
-        return false;
     }
 
 

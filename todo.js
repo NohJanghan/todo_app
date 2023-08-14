@@ -99,6 +99,7 @@ let TodoList = class {
         })
 
         //TODO: Determine Order
+        order = 0;
 
         if (content == null) {
             return false;

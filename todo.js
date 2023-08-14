@@ -84,16 +84,28 @@ let TodoList = class {
         }
     }
     // Create
-    addTodo(content) {
+    /**
+     * 
+     * @param {string} content (카테고리: 내용)의 포맷
+     * @param {string} date yyyy-mm-dd 포맷의 날짜(Localtime)
+     * @returns 
+     */
+    addTodo(content, date) {
         let category, order;
-        // parseContent 구현해야함
-        [content, order, category] = parseContent(content);
+        // content의 형식 ==> 카테고리: 내용
+        // 카테고리는 하나만 허용됨
+        [category, content]  = content.split(':').map((item, index) => {
+            return item.trim();
+        })
+
+        //TODO: Determine Order
+
         if (content == null) {
             return false;
         }
-        const insertSQL = "INSERT INTO todo (order, content, category) VALUES ((?), (?), (?))";
+        const insertSQL = "INSERT INTO todo (order, content, category, date) VALUES ((?), (?), (?))";
         let self = this;
-        this.db.run(insertSQL, [order, content, category], function(err) {
+        this.db.run(insertSQL, [order, content, category, date], function(err) {
             if(err) throw err;
             console.log("---inserted to DB---");
             console.log("rowid: " + this.lastID);

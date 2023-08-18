@@ -36,7 +36,7 @@ let Todos = class extends Object {
 let TodoList = class {
     constructor(db_path = ":memory:") {
         this.openDB(db_path);
-        this.todoContainer = new Todos();
+        this.todos = new Todos();
     }
     openDB(db_path, doInit = true) {
         this.closeDB();
@@ -98,8 +98,9 @@ let TodoList = class {
             return item.trim();
         })
 
-        //TODO: Determine Order
-        order = 0;
+        //Determine Order
+        let maxOrder = Math.max(...this.todos[date].map((todo) => todo.order))
+        order = maxOrder + 1; //가장 마지막에 넣으므로 다른 요소의 순서 변경 필요없음
 
         if (content == null) {
             return false;
@@ -116,7 +117,7 @@ let TodoList = class {
                 if(row === undefined) console.err("No Result");
 
                 let todo = new Todo(row.id, row.content, row.category, row.date, row.status, row.order);
-                self.todoContainer.insertTodo(todo);
+                self.todos.insertTodo(todo);
                 console.log("---inserted to todoList---");
                 console.log(todo);
             })
@@ -125,7 +126,7 @@ let TodoList = class {
 
     // Read (Month Unit)
     getTodoInMonth(year, month) {
-        const selectSQL = `SELECT id, order, content, status, date, category FROM todo WHERE date BETWEEN date('${year}-${month}-01','start of month') AND date('${year}-${month}-01', '+1 months', 'start of month', '-1 day')`;
+        const selectSQL = `SELECT id, order, content, status, date, category FROM todo WHERE date BETWEEN date('${year}-${month}-01','start of month') AND date('${year}-${month}-01', '+1 months', 'start of month', '-1 day') ORDER BY order`;
         this.db.each(selectSQL, (err, row) => {
             if(err) throw err;
             

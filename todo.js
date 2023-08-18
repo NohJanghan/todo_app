@@ -14,6 +14,7 @@ let Todo = class {
 
 let Todos = class extends Object {
     constructor() {
+        this.findById = {};
 
     }
     /**
@@ -30,6 +31,22 @@ let Todos = class extends Object {
         } else {
             this[yearmonth] = [todo];
         }
+        this.findById[todo.id] = todo;
+    }
+    popTodo(todoId) {
+        if(typeof todoId != 'number') {
+            return false;
+        }
+
+        let todo = this.findById[todoId];
+        this.findById[todoID] = undefined;
+        let yearmonth = todo.date.split('-').reduce((prev, curr) => prev + curr)
+        this[yearmonth].forEach((element, index) => {
+            if(element.id == todoId) {
+                this[yearmonth].splice(index,1);
+            }
+        });
+        return todo;
     }
 };
 
@@ -99,7 +116,14 @@ let TodoList = class {
         })
 
         //Determine Order
-        let maxOrder = Math.max(...this.todos[date].map((todo) => todo.order))
+        let yearmonth = date.split('-')[0] + date.split('-')[1];
+        let maxOrder = 0
+        this.todos[yearmonth].forEach(element => {
+            if(element.date.split('-')[2] == date.split('-')[2]) { //날짜(일)이 같은지 확인
+                maxOrder = element.order > maxOrder ? element.order : maxOrder;
+
+            }
+        });
         order = maxOrder + 1; //가장 마지막에 넣으므로 다른 요소의 순서 변경 필요없음
 
         if (content == null) {
@@ -140,5 +164,75 @@ let TodoList = class {
         })
     }
 
+    // Update
+    /**
+     * 
+     * @param {number} targetId 목표가되는 todo의 id
+     * @param {string} newDate yyyy-mm-dd형식의 date
+     */
+    updateDate(targetId, newDate) {
+        const reg = /^\d{4}--\d{2}--\d{2}$/;
+        if(!reg.test(newDate) || typeof targetId != 'number') {
+            return null;
+        }
+        let todo = this.todos.popTodo(todoId);
+
+        //order 변경
+        let yearmonth = date.split('-')[0] + date.split('-')[1];
+        let maxOrder = 0
+        this.todos[yearmonth].forEach(element => {
+            if(element.date.split('-')[2] == date.split('-')[2]) { //날짜(일)이 같은지 확인
+                maxOrder = element.order > maxOrder ? element.order : maxOrder;
+            }
+        });
+        let newOrder = maxOrder + 1;
+        
+
+
+        const updateSQL = "UPDATE todo SET date = ?, order = ? WHERE id = ?";
+        this.db.run(updateSQL, newDate, newOrder, targetId);
+        
+        //todos 내부에서 데이터 옮기기
+        todo.date = newDate;
+        todo.order = newOrder;
+        this.todos.insertTodo(todo);
+    }
+    updateContent(targetId, newContent) {
+        if(typeof targetId != 'number') return false;
+
+        const updateSQL = "UPDATE todo SET content = ? WHERE id = ?";
+        this.db.run(updateSQL, newContent, targetId);
+
+        let todo = this.todos.findById[targetId];
+        todo.content = newContent;
+    }
+    updateState(targetId, newStatus) {
+        //TODO: newStatus 검증
+        if(typeof targetId != 'number' || typeof newStatus != 'number') return false;
+
+        const updateSQL = "UPDATE todo SET status = ? WHERE id = ?";
+        this.db.run(updateSQL, newStatus, targetId);
+
+        let todo = this.todos.findById[targetId];
+        todo.status = newStatus;
+    }
+    updateCategory(targetId, newCategory) {
+        if(typeof targetId != 'number') return false;
+
+        const updateSQL = "UPDATE todo SET category = ? WHERE id = ?";
+        this.db.run(updateSQL, newCategory, targetId);
+
+        let todo = this.todos.findById[targetId];
+        todo.status = newCategory;
+    }
+    updateOrder(targetId, newOrder) {
+        if(typeof targetId != 'number') return false;
+        
+        const updateSQL = "UPDATE todo SET order = ? WHERE id = ?";
+        this.db.run(updateSQL, newOrder, targetId);
+
+        let todo = this.todos.findById[targetId];
+        todo.status = newOrder;
+    }
 
 };

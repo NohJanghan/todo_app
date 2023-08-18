@@ -126,6 +126,9 @@ let TodoList = class {
 
     // Read (Month Unit)
     getTodoInMonth(year, month) {
+        if (typeof year != 'number' || typeof month != 'number') {
+            return null;
+        }
         const selectSQL = `SELECT id, order, content, status, date, category FROM todo WHERE date BETWEEN date('${year}-${month}-01','start of month') AND date('${year}-${month}-01', '+1 months', 'start of month', '-1 day') ORDER BY order`;
         this.db.each(selectSQL, (err, row) => {
             if(err) throw err;

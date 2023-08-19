@@ -236,3 +236,5 @@ let TodoList = class {
     }
 
 };
+
+module.exports = TodoList;

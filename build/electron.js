@@ -10,12 +10,22 @@ const createWindow = () => {
         resizable: false,
 
         webPreferences: {
-            preload: path.join(__dirname, 'mainPreload.js'),
+            preload: path.join(__dirname, 'preload.js'),
         },
     })
 
-    win.loadFile('main.html')
+    if (process.env.mode === 'dev') {
+        win.loadURL('http://localhost:3000')
+    } else {
+        win.loadURL(
+            `${path.join(__dirname, '../build/index.html')}`
+        )
+        win.loadFile(
+            `${path.join(__dirname, '../build/index.html')}`
+        )
+    }
     if(process.env.NODE_ENV == "development") win.webContents.openDevTools()
+
 }
 
 app.whenReady().then(() => {
